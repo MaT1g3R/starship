@@ -38,6 +38,16 @@ RUN curl https://pyenv.run | bash \
 # Check that Python was correctly installed
 RUN python --version
 
+# Install Ruby
+ENV RUBY_VERSION 2.5.5
+ENV RBENV_ROOT /home/nonroot/.rbenv
+ENV PATH $RBENV_ROOT/bin:$RBENV_ROOT/shims:$PATH
+RUN curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash \
+  && rbenv install $RUBY_VERSION \
+  && rbenv global $RUBY_VERSION
+# Check that Ruby was correctly installed
+RUN ruby --version
+
 # Create blank project
 RUN USER=nonroot cargo new --bin /src/starship
 WORKDIR /src/starship
